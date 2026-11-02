@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minutes of Meeting Generator</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- PDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+
+    <!-- Main JavaScript -->
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="header-icon">M</div>
+            <div>
+                <h1>Minutes of Meeting</h1>
+                <p>Create, manage and export meeting minutes</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- Meeting Form -->
+        <section class="form-section">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">MEETING MANAGEMENT</span>
+                    <h2>Meeting Details</h2>
+                    <p>Fill in the information about your meeting.</p>
+                </div>
+            </div>
+
+            <form id="momForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+                        <label for="meetingTitle">Meeting Title *</label>
+                        <input type="text" id="meetingTitle"
+                            placeholder="Enter meeting title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="domain">Department / Domain</label>
+                        <input type="text" id="domain"
+                            placeholder="e.g. Technology, Marketing">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="meetingDate">Meeting Date *</label>
+                        <input type="date" id="meetingDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="meetingTime">Meeting Time *</label>
+                        <input type="time" id="meetingTime" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="meetingMode">Meeting Mode</label>
+                        <select id="meetingMode">
+                            <option value="">Select mode</option>
+                            <option value="Online">Online</option>
+                            <option value="Offline">Offline</option>
+                            <option value="Hybrid">Hybrid</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="venue">Venue / Meeting Link</label>
+                        <input type="text" id="venue"
+                            placeholder="Enter venue or meeting link (optional)">
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="attendance">Attendance</label>
+                        <textarea id="attendance" rows="3"
+                            placeholder="Enter names of attendees"></textarea>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="agenda">Meeting Agenda</label>
+                        <textarea id="agenda" rows="4"
+                            placeholder="Enter the purpose and agenda of the meeting"></textarea>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="discussion">Discussed Points</label>
+                        <textarea id="discussion" rows="5"
+                            placeholder="Enter topics discussed, decisions and outcomes"></textarea>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="actionItems">Action Items</label>
+                        <textarea id="actionItems" rows="4"
+                            placeholder="Enter tasks, responsible persons and deadlines"></textarea>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="preparedBy">Prepared By</label>
+                        <input type="text" id="preparedBy"
+                            placeholder="Enter your name">
+                    </div>
+
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="primary-btn">
+                        Generate Preview
+                    </button>
+
+                    <button type="reset" class="secondary-btn">
+                        Clear Form
+                    </button>
+                </div>
+
+                <p id="saveStatus" class="save-status">
+                    Your entries are saved automatically.
+                </p>
+
+            </form>
+        </section>
+
+        <!-- Preview Section -->
+        <section class="preview-section" id="previewSection">
+
+            <div class="preview-header">
+                <div>
+                    <span class="eyebrow">DOCUMENT VIEW</span>
+                    <h2>Meeting Minutes Preview</h2>
+                </div>
+
+                <button type="button" id="downloadPdf" class="download-btn">
+                    Download PDF
+                </button>
+            </div>
+
+            <div id="previewContent" class="preview-content">
+
+                <div class="empty-state">
+                    <div class="empty-icon">M</div>
+                    <h3>Your meeting preview will appear here</h3>
+                    <p>Fill in the meeting details and click Generate Preview.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="page-footer">
+        <p>Minutes of Meeting Generator</p>
+    </footer>
+
+</body>
+</html>
