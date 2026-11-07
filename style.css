@@ -420,9 +420,6 @@ body {
         width: 100%;
     }
 }
-@media (max-width: 650px) {
-    /* Your existing responsive CSS */
-}
 /* Fix generated document header alignment */
 
 .mom-document-header {
