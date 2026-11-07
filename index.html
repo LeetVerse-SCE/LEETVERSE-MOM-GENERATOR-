@@ -1,72 +1,129 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leetverse — Minutes of Meeting</title>
+    <link rel="icon" type="image/jpeg" href="IMAGES/leetverse-logo.jpg">
 
-    <title>Minutes of Meeting Generator</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- PDF Library -->
+    <!-- PDF & Canvas Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
-    <!-- Main JavaScript (include only once) -->
+    <!-- Main JavaScript -->
     <script src="script.js" defer></script>
 </head>
-
 <body>
 
-    <header class="header">
-        <div class="header-content">
-            <div class="header-icon">M</div>
-            <div>
-                <h1>Minutes of Meeting</h1>
-                <p>Create, manage and export meeting minutes</p>
+    <!-- ========================================================= -->
+    <!-- FILLED GREEN HEADER                                       -->
+    <!-- ========================================================= -->
+    <header class="site-header">
+        <div class="header-inner">
+            <!-- Brand Info -->
+            <div class="brand-block">
+                <div class="brand-logo-frame">
+                    <img src="IMAGES/leetverse-logo.jpg" alt="Leetverse Logo" class="brand-logo-img">
+                </div>
+                <div class="brand-headings">
+                    <span class="brand-title">LEETVERSE</span>
+                    <span class="brand-subtitle">Minutes of Meeting</span>
+                </div>
+            </div>
+
+            <!-- Header Controls & Live Clock -->
+            <div class="header-controls">
+                <div class="header-clock" id="liveClockWidget">
+                    <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <div class="clock-text">
+                        <span class="clock-time" id="liveClockTime">--:--:--</span>
+                        <span class="clock-date" id="liveClockDate">Loading...</span>
+                    </div>
+                </div>
+
+                <button type="button" id="resetBtn" class="header-btn header-btn-outline" title="Clear all fields">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                    </svg>
+                    <span>Reset</span>
+                </button>
+
+                <button type="button" id="downloadPdf" class="header-btn header-btn-solid download-pdf-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Export PDF</span>
+                </button>
             </div>
         </div>
     </header>
 
-    <main class="container">
+    <!-- ========================================================= -->
+    <!-- MAIN WORKSPACE (LIGHT GREEN BACKGROUND)                   -->
+    <!-- ========================================================= -->
+    <main class="page-container">
+        <!-- Status Notification Strip -->
+        <div class="workspace-bar">
+            <div class="workspace-status">
+                <span class="pulse-indicator" id="saveDot"></span>
+                <span id="saveStatus" class="status-label">Auto-saved</span>
+            </div>
 
-        <!-- Meeting Form -->
-        <section class="form-section">
-            <div class="section-heading">
-                <div>
-                    <span class="eyebrow">MEETING MANAGEMENT</span>
+            <div class="workspace-actions">
+                <a href="#previewSection" class="jump-preview-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+                    <span>Jump to Preview</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- SECTION 1: MEETING DETAILS FORM -->
+        <section class="content-card form-section-card" id="formSection">
+            <div class="card-title-bar">
+                <div class="title-with-icon">
+                    <span class="title-icon-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 20h9"></path>
+                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                        </svg>
+                    </span>
                     <h2>Meeting Details</h2>
-                    <p>Fill in the information about your meeting.</p>
                 </div>
             </div>
 
-            <form id="momForm">
-
-                <div class="form-grid">
-
-                    <div class="form-group full">
-                        <label for="meetingTitle">Meeting Title *</label>
-                        <input type="text" id="meetingTitle"
-                            placeholder="Enter meeting title" required>
+            <form id="momForm" class="mom-form" autocomplete="off">
+                <div class="form-grid-layout">
+                    <!-- Title -->
+                    <div class="field-item col-span-2">
+                        <label for="meetingTitle">
+                            <span>Meeting Title</span>
+                            <span class="req">*</span>
+                        </label>
+                        <input type="text" id="meetingTitle" placeholder="Enter meeting title" required>
                     </div>
 
-                    <div class="form-group">
-                        <label for="domain">Department / Domain</label>
-                        <input type="text" id="domain"
-                            placeholder="e.g. Technology, Marketing">
+                    <!-- Domain -->
+                    <div class="field-item">
+                        <label for="domain">Domain</label>
+                        <input type="text" id="domain" placeholder="e.g. Technical">
                     </div>
 
-                    <div class="form-group">
-                        <label for="meetingDate">Meeting Date *</label>
-                        <input type="date" id="meetingDate" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="meetingTime">Meeting Time *</label>
-                        <input type="time" id="meetingTime" required>
-                    </div>
-
-                    <div class="form-group">
+                    <!-- Mode -->
+                    <div class="field-item">
                         <label for="meetingMode">Meeting Mode</label>
                         <select id="meetingMode">
                             <option value="">Select mode</option>
@@ -76,93 +133,117 @@
                         </select>
                     </div>
 
-                    <div class="form-group full">
+                    <!-- Date -->
+                    <div class="field-item">
+                        <label for="meetingDate">
+                            <span>Date</span>
+                            <span class="req">*</span>
+                        </label>
+                        <input type="date" id="meetingDate" required>
+                    </div>
+
+                    <!-- Time -->
+                    <div class="field-item">
+                        <label for="meetingTime">
+                            <span>Time</span>
+                            <span class="req">*</span>
+                        </label>
+                        <input type="time" id="meetingTime" required>
+                    </div>
+
+                    <!-- Venue -->
+                    <div class="field-item col-span-2">
                         <label for="venue">Venue / Meeting Link</label>
-                        <input type="text" id="venue"
-                            placeholder="Enter venue or meeting link (optional)">
+                        <input type="text" id="venue" placeholder="e.g. Room 402 or meeting link">
                     </div>
 
-                    <div class="form-group full">
+                    <!-- Attendance -->
+                    <div class="field-item col-span-4">
                         <label for="attendance">Attendance</label>
-                        <textarea id="attendance" rows="3"
-                            placeholder="Enter names of attendees"></textarea>
+                        <textarea id="attendance" rows="2" placeholder="Names of attendees"></textarea>
                     </div>
 
-                    <div class="form-group full">
-                        <label for="agenda">Meeting Agenda</label>
-                        <textarea id="agenda" rows="4"
-                            placeholder="Enter the purpose and agenda of the meeting"></textarea>
+                    <!-- Agenda -->
+                    <div class="field-item col-span-4">
+                        <label for="agenda">Agenda</label>
+                        <textarea id="agenda" rows="3" placeholder="Meeting purpose and agenda topics"></textarea>
                     </div>
 
-                    <div class="form-group full">
-                        <label for="discussion">Discussed Points</label>
-                        <textarea id="discussion" rows="5"
-                            placeholder="Enter topics discussed, decisions and outcomes"></textarea>
+                    <!-- Discussion -->
+                    <div class="field-item col-span-4">
+                        <label for="discussion">Discussed Points & Outcomes</label>
+                        <textarea id="discussion" rows="4" placeholder="Summary of discussion and decisions"></textarea>
                     </div>
 
-                    <div class="form-group full">
+                    <!-- Action Items -->
+                    <div class="field-item col-span-4">
                         <label for="actionItems">Action Items</label>
-                        <textarea id="actionItems" rows="4"
-                            placeholder="Enter tasks, responsible persons and deadlines"></textarea>
+                        <textarea id="actionItems" rows="3" placeholder="Tasks, owners, and deadlines"></textarea>
                     </div>
 
-                    <div class="form-group full">
+                    <!-- Prepared By -->
+                    <div class="field-item col-span-4">
                         <label for="preparedBy">Prepared By</label>
-                        <input type="text" id="preparedBy"
-                            placeholder="Enter your name">
+                        <input type="text" id="preparedBy" placeholder="Enter your name">
                     </div>
-
                 </div>
 
-                <div class="button-group">
-
-                    <button type="submit" class="primary-btn">
-                        Generate Preview
+                <!-- Footer Buttons -->
+                <div class="form-action-row">
+                    <button type="submit" class="action-btn-primary" id="generateBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>Update Preview</span>
                     </button>
-
-                    <button type="reset" class="secondary-btn">
-                        Clear Form
+                    <button type="reset" class="action-btn-secondary" id="clearFormBtn">
+                        <span>Clear</span>
                     </button>
-
                 </div>
-
-                <p id="saveStatus" class="save-status">
-                    Your entries are saved automatically.
-                </p>
-
             </form>
         </section>
 
-        <!-- Preview Section -->
-        <section class="preview-section" id="previewSection">
-
-            <div class="preview-header">
-                <div>
-                    <span class="eyebrow">DOCUMENT VIEW</span>
-                    <h2>Meeting Minutes Preview</h2>
+        <!-- SECTION 2: DOCUMENT PREVIEW (FULL WIDTH A4 SHEET) -->
+        <section class="content-card preview-section-card" id="previewSection">
+            <div class="card-title-bar preview-title-bar">
+                <div class="title-with-icon">
+                    <span class="title-icon-badge preview-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                        </svg>
+                    </span>
+                    <h2>Document Preview</h2>
                 </div>
 
-                <button type="button" id="downloadPdf" class="download-btn">
-                    Download PDF
-                </button>
-            </div>
-
-            <div id="previewContent" class="preview-content">
-
-                <div class="empty-state">
-                    <div class="empty-icon">M</div>
-                    <h3>Your meeting preview will appear here</h3>
-                    <p>Fill in the meeting details and click Generate Preview.</p>
+                <div class="preview-actions">
+                    <span class="print-ready-pill">A4 Print Ready</span>
+                    <button type="button" class="preview-tool-btn" id="printDocBtn" title="Print document">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                            <rect x="6" y="14" width="12" height="8"></rect>
+                        </svg>
+                        <span>Print</span>
+                    </button>
                 </div>
-
             </div>
 
+            <!-- Centered A4 Canvas Viewport -->
+            <div class="preview-canvas-container">
+                <div id="previewContent" class="preview-pages-wrapper">
+                    <!-- Live preview content populated by script.js -->
+                </div>
+            </div>
         </section>
-
     </main>
 
-    <footer class="page-footer">
-        <p>Minutes of Meeting Generator</p>
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <img src="IMAGES/leetverse-logo.jpg" alt="Leetverse" class="footer-logo">
+            <p>Leetverse • Minutes of Meeting Generator</p>
+        </div>
     </footer>
 
 </body>
