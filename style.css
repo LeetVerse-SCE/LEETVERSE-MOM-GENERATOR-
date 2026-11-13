@@ -782,6 +782,13 @@ body {
 .signoff-box {
     display: flex;
     flex-direction: column;
+    position: relative;
+}
+
+.signoff-box.verified-box {
+    align-items: flex-end;
+    text-align: right;
+    position: relative;
 }
 
 .signoff-label {
@@ -805,6 +812,23 @@ body {
     height: 1px;
     background: #94a3b8;
     margin-top: 18px;
+}
+
+/* Authentic Document Stamp placed over Verified By Leetverse */
+.doc-stamp-img {
+    position: absolute;
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+    right: 4px;
+    top: -24px;
+    transform: rotate(-10deg);
+    mix-blend-mode: multiply;
+    opacity: 0.72;
+    pointer-events: none;
+    z-index: 5;
+    user-select: none;
+    filter: contrast(1.15) brightness(0.96);
 }
 
 /* Footer: Always pinned to the very bottom of every page */
@@ -1182,6 +1206,26 @@ body {
         height: 1px !important;
         background: #94a3b8 !important;
         margin-top: 14px !important;
+    }
+
+    .signoff-box.verified-box {
+        position: relative !important;
+    }
+
+    .doc-stamp-img {
+        display: block !important;
+        position: absolute !important;
+        width: 26mm !important;
+        height: 26mm !important;
+        right: 1.5mm !important;
+        top: -6mm !important;
+        transform: rotate(-10deg) !important;
+        mix-blend-mode: multiply !important;
+        opacity: 0.72 !important;
+        z-index: 5 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        filter: contrast(1.15) brightness(0.96) !important;
     }
 
     /* Footer: Always pinned to bottom */

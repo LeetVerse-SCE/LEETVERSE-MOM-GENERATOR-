@@ -174,9 +174,21 @@ function createMetaTable(data) {
     return `<div class="doc-meta-table"><div class="meta-table-grid">${rows.join("")}</div></div>`;
 }
 
-// Clean Sign-off Row Builder
+// Clean Sign-off Row Builder with Authentic Stamp
 function createSignoffRow(preparedBy) {
-    return `<div class="doc-signoff-row"><div class="signoff-box"><span class="signoff-label">Prepared By</span><span class="signoff-name">${escapeHTML(preparedBy || "Not specified")}</span><div class="signoff-line"></div></div><div class="signoff-box" style="text-align: right; align-items: flex-end;"><span class="signoff-label">Verified By</span><span class="signoff-name">Leetverse</span><div class="signoff-line"></div></div></div>`;
+    return `<div class="doc-signoff-row">
+        <div class="signoff-box">
+            <span class="signoff-label">Prepared By</span>
+            <span class="signoff-name">${escapeHTML(preparedBy || "Not specified")}</span>
+            <div class="signoff-line"></div>
+        </div>
+        <div class="signoff-box verified-box">
+            <span class="signoff-label">Verified By</span>
+            <span class="signoff-name">Leetverse</span>
+            <div class="signoff-line"></div>
+            <img src="IMAGES/stamp.png" class="doc-stamp-img" alt="Leetverse Stamp">
+        </div>
+    </div>`;
 }
 
 // Clean Page Footer
